@@ -52,6 +52,23 @@ class ArticulosController extends Controller
      */
     public function store(Request $request)
     {
+        //Hacer validacion de campos 
+        $campos=[
+            'Modelo'=>'required|string|max:100',
+            'Marca'=>'required|string|max:100',
+            'Color'=>'required|string|max:100',
+            'Talla'=>'required|string|max:100',
+            'Precio'=>'required|string|max:100',
+            'Imagen'=>'required|max:10000|mimes:jpeg,png,jpg',
+        ];
+
+        $mensaje=[
+            'required'=>'El :attribute es requerido',
+            'Imagen.required'=>'La imagen es requerida'
+        ];
+
+        $this->validate($request, $campos, $mensaje);
+        
         //
         $request->merge(['user_id' => Auth::id()]);
         //$datosArticulo = request()->all();
@@ -104,6 +121,26 @@ class ArticulosController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //Hacer validacion de campos 
+        $campos=[
+            'Modelo'=>'required|string|max:100',
+            'Marca'=>'required|string|max:100',
+            'Color'=>'required|string|max:100',
+            'Talla'=>'required|string|max:100',
+            'Precio'=>'required|string|max:100',
+        ];
+
+        $mensaje=[
+            'required'=>'El :attribute es requerido',
+            
+        ];
+
+        if($request->hasFile('fotoArticulo')){
+            $campos=['Imagen'=>'required|max:10000|mimes:jpeg,png,jpg'];
+            $mensaje=['Imagen.required'=>'La imagen es requerida'];
+        }
+
+        $this->validate($request, $campos, $mensaje);
         //
         $datosArticulo = request()->except(['_token','_method']);
         
@@ -124,7 +161,7 @@ class ArticulosController extends Controller
         //Vamos a recuperar los datos
         $articulos = Articulos::findOrFail($id);
 
-        return view('Articulos.edit', compact('articulos'));
+        return view('Articulos', compact('articulos'))->with('mensaje', 'Registro modificado exitosamente!');
     }
 
     /**

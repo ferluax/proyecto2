@@ -4,14 +4,18 @@
 <x-plantilla>
 
 <!-- Utilizar mensaje para saber si un registro se creo bien o se elimino algo -->
+<div class="alert alert-success" role="alert">
 @if(Session::has('mensaje'))
 {{ Session::get('mensaje') }}
 @endif
+</div>
+
 
 <!-- Crear enlace para poder ir a crear nuevo articulo -->
-<a href="{{ url('/dashboard') }}">Dashboard</a>
-<a href="{{ url('Articulos/create') }}">Registrar nuevo articulo</a>
-
+<!-- <a href="{{ url('/dashboard') }}" class="btn btn-primary">Dashboard</a>
+<a href="{{ url('Articulos/create') }}" class="btn btn-primary">Registrar nuevo articulo</a> -->
+</br>
+</br>
 
 <table class="table table-light">
     <!-- cabecera de la tabla -->
@@ -40,7 +44,7 @@
 
             <!-- Mostrar imagen de storage -->
             <td>
-                <img src="{{ asset('storage').'/'.$articulos->fotoArticulo }}" width="100" alt="">
+                <img class="img-thumbnail img-fluid" src="{{ asset('storage').'/'.$articulos->fotoArticulo }}" width="100" alt="">
             </td>
 
 
@@ -50,13 +54,13 @@
             <td>{{$articulos->talla}}</td>
             <td>${{$articulos->precio}}</td>
             <td>
-            <a href="{{url ('/Articulos/'.$articulos->id.'/edit') }}">Editar</a>    
+            <a href="{{url ('/Articulos/'.$articulos->id.'/edit') }}" class="btn btn-warning">Editar</a>    
              | 
                 <!-- formulario para eliminar un registro -->
-                <form action="{{ url('/Articulos/'.$articulos->id ) }}" method="post">
+                <form action="{{ url('/Articulos/'.$articulos->id ) }}" method="post" class="d-inline" >
                     @csrf
                     {{ method_field('delete') }}
-                    <input type="submit" onclick="return confirm('¿Estas seguro?')" value="Eliminar">
+                    <input class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" type="submit" onclick="return confirm('¿Estas seguro?')" value="Eliminar">
                 </form>
             </td>
         </tr>
